@@ -1,7 +1,9 @@
 import React from 'react';
-import { View, StyleSheet, Text, ScrollView } from 'react-native';
+import { View, StyleSheet, Text, ScrollView, Dimensions } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 
+const SCREEN_WIDTH = Dimensions.get('window').width;
+// console.log(SCREEN_WIDTH);
 export default function App() {
   return (
       <View style={styles.container}>
@@ -9,7 +11,14 @@ export default function App() {
         <View style={styles.city}>
           <Text style={styles.cityname}>서울</Text>
         </View>
-        <ScrollView style={styles.weather}>
+        {/* 페이지 넘기는 좋은 기능 */}
+        <ScrollView 
+          pagingEnabled
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          // indicatorStyle='white'
+          contentContainerstyle={styles.weather}>
+             {/* 페이지 넘기는 좋은 기능 */}
           <View style={styles.day}>
             <View>
               <Text style={styles.temp}>27</Text>
@@ -55,10 +64,9 @@ const styles = StyleSheet.create({
     fontWeight: "500",
   },
   weather: {
-    flex: 3,
   },
   day: {
-    flex: 1,
+    width: SCREEN_WIDTH,
     justifyContent: 'center',
     alignItems: 'center',
   },
