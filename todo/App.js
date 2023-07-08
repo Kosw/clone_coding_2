@@ -12,9 +12,22 @@ import { theme } from "./colors";
 export default function App() {
   const [working, setWorking] = useState(true);
   const travel = () => setWorking(false);
+  const [toDos, setToDos] = useState({}); // [1, 2, 3, 4, 5
   const work = () => setWorking(true);
   const onChangeText = (payload) => setText(payload);
   const [text, setText] = useState("");
+  const addToDo = () => {
+    if (text === "") {
+      return;
+    }
+    const newToDos = Object.assign(
+      {}, 
+      toDos, 
+      {[Date.now()]: {text, work: working}});
+    setToDos(newToDos);
+    setText("");
+  };
+  console.log(toDos);
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -27,7 +40,9 @@ export default function App() {
       </TouchableOpacity>
       </View>
         <TextInput
+        onSubmitEditing={addToDo}
         onChangeText={onChangeText}
+        returnKeyType="done"
         //keyboardType='number-pad'
         value={text}
         // secureTextEntry // 비밀번호 입력
