@@ -1,19 +1,33 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, TouchableOpacity} from 'react-native';
+import React, { useState } from 'react';
+import { 
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  TextInput
+} from 'react-native';
 import { theme } from "./colors";
 
 export default function App() {
+  const [working, setWorking] = useState(true);
+  const travel = () => setWorking(false);
+  const work = () => setWorking(true);
   return (
     <View style={styles.container}>
       <View style={styles.header}>
       <StatusBar style="light" />
-      <TouchableOpacity>
-        <Text style={styles.btnText}>123</Text>
+      <TouchableOpacity onPress={work}>
+        <Text style={{...styles.btnText, color: working ? "white": theme.grey}}>work</Text>
       </TouchableOpacity>
-      <TouchableOpacity>
-        <Text style={styles.btnText}>456</Text>
+      <TouchableOpacity onPress={travel}>
+        <Text style={{...styles.btnText, color: !working ? "white": theme.grey}}>여행</Text>
       </TouchableOpacity>
       </View>
+        <TextInput
+        keyboardType='number-pad'
+        style={styles.input} placeholder={working ? "Add a To Do": "Where do you want to go?"} placeholderTextColor={theme.grey}
+        />
     </View>
   );
 }
@@ -32,6 +46,13 @@ const styles = StyleSheet.create({
   btnText: {
     fontSize: 44,
     fontWeight: "600",
-    color: theme.grey,
+  },
+  input: {
+    backgroundColor: "white",
+    paddingVertical: 15,
+    paddingHorizontal: 20,
+    borderRadius: 30,
+    marginTop: 20,
+    fontSize: 18,
   },
 });
