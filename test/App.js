@@ -8,19 +8,19 @@ const SCREEN_WIDTH = Dimensions.get('window').width;
 
 export default function App() {
   const [city, setCity] = useState('Loading...');
-  const [location, setLocation] = useState();
   const [ok, setOk] = useState(true);
-
+  const [days, setDays] = useState([]);
   const ask = async () => {
     const { granted } = await Location.requestForegroundPermissionsAsync();
     if (!granted) {
       setOk(false);
-    } else {
-      const { coords: { latitude, longitude } } = await Location.getCurrentPositionAsync({ accuracy: 5 });
-      const location = await Location.reverseGeocodeAsync({ latitude, longitude }, { useGoogleMaps: false });
-      setCity(location[0].city || 'Unknown');
     }
+    const { coords: { latitude, longitude } } = await Location.getCurrentPositionAsync({ accuracy: 5 });
+    const location = await Location.reverseGeocodeAsync({ latitude, longitude }, { useGoogleMaps: false });
+    setCity(location[0].city);
   };
+  
+
 
   useEffect(() => {
     ask();
