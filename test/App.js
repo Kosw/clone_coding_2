@@ -12,8 +12,7 @@ import {
 import { Fontisto } from "@expo/vector-icons";
 
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
-
-const API_KEY = "784ab24ff2ed5d94d4288abed9e25d13";
+const API_KEY = "4468aa9e25d3664d1885280515614d58"; // OpenWeatherMap API 키를 여기에 입력하세요.
 
 const icons = {
   Clouds: "cloudy",
