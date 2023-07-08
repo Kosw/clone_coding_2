@@ -1,15 +1,33 @@
-import React from 'react';
+import * as Location from 'expo-location';
+import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, Text, ScrollView, Dimensions } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
+
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 // console.log(SCREEN_WIDTH);
 export default function App() {
+  const [city, setcity] = useState('Loading...');
+  const [location, setLocation] = useState();
+  const [ok, setok] = useState(true);
+  const ask = async () => {
+    const {granted} = await Location.requestForegroundPermissionsAsync();
+    if(!granted) {
+      setok(false);
+    }
+    const {coords:{latitude,longitude}} = await Location.getCurrentPositionAsync({accuracy: 5});
+    const location = await Location.reverseGeocodeAsync({latitude,longitude}, {useGoogleMaps: false});
+    // console.log(location[0].city);
+  };
+
+  useEffect(() => {
+    ask();
+  }, []);
   return (
       <View style={styles.container}>
         <StatusBar style="light" />
         <View style={styles.city}>
-          <Text style={styles.cityname}>서울</Text>
+          <Text style={styles.cityname}>{city}</Text>
         </View>
         {/* 페이지 넘기는 좋은 기능 */}
         <ScrollView 
