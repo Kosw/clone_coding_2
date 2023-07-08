@@ -4,7 +4,10 @@ import { View, StyleSheet, Text, ScrollView, Dimensions } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 
 
+
 const SCREEN_WIDTH = Dimensions.get('window').width;
+//API키 서버에 둬야 안전함 아래와 같은 방법은 안전하않은 그냥 테스트용임
+const API_KEY = "28d036a118e483162e7538e1aa7464d0";
 
 export default function App() {
   const [city, setCity] = useState('Loading...');
@@ -17,7 +20,12 @@ export default function App() {
     }
     const { coords: { latitude, longitude } } = await Location.getCurrentPositionAsync({ accuracy: 5 });
     const location = await Location.reverseGeocodeAsync({ latitude, longitude }, { useGoogleMaps: false });
+    // const response = await fetch(
+    //   `https://api.openweathermap.org/data/3.0/onecall?lat=${latitude}&lon=${longitude}&exclude=alerts&appid=${API_KEY}`
+    //   ); 이거 유료버전이라 안됨
     setCity(location[0].city);
+    const json = await response.json();
+    console.log(json);
   };
   
 
