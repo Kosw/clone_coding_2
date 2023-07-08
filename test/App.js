@@ -5,64 +5,65 @@ import { StatusBar } from 'expo-status-bar';
 
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
-// console.log(SCREEN_WIDTH);
+
 export default function App() {
-  const [city, setcity] = useState('Loading...');
+  const [city, setCity] = useState('Loading...');
   const [location, setLocation] = useState();
-  const [ok, setok] = useState(true);
+  const [ok, setOk] = useState(true);
+
   const ask = async () => {
-    const {granted} = await Location.requestForegroundPermissionsAsync();
-    if(!granted) {
-      setok(false);
+    const { granted } = await Location.requestForegroundPermissionsAsync();
+    if (!granted) {
+      setOk(false);
+    } else {
+      const { coords: { latitude, longitude } } = await Location.getCurrentPositionAsync({ accuracy: 5 });
+      const location = await Location.reverseGeocodeAsync({ latitude, longitude }, { useGoogleMaps: false });
+      setCity(location[0].city || 'Unknown');
     }
-    const {coords:{latitude,longitude}} = await Location.getCurrentPositionAsync({accuracy: 5});
-    const location = await Location.reverseGeocodeAsync({latitude,longitude}, {useGoogleMaps: false});
-    // console.log(location[0].city);
   };
 
   useEffect(() => {
     ask();
   }, []);
+
   return (
-      <View style={styles.container}>
-        <StatusBar style="light" />
-        <View style={styles.city}>
-          <Text style={styles.cityname}>{city}</Text>
-        </View>
-        {/* 페이지 넘기는 좋은 기능 */}
-        <ScrollView 
-          pagingEnabled
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          // indicatorStyle='white'
-          contentContainerstyle={styles.weather}>
-             {/* 페이지 넘기는 좋은 기능 */}
-          <View style={styles.day}>
-            <View>
-              <Text style={styles.temp}>27</Text>
-              <Text style={styles.description}>sunny</Text>
-            </View>
-          </View>
-          <View style={styles.day}>
-            <View>
-              <Text style={styles.temp}>27</Text>
-              <Text style={styles.description}>sunny</Text>
-            </View>
-          </View>
-          <View style={styles.day}>
-            <View>
-              <Text style={styles.temp}>27</Text>
-              <Text style={styles.description}>sunny</Text>
-            </View>
-          </View>
-          <View style={styles.day}>
-            <View>
-              <Text style={styles.temp}>27</Text>
-              <Text style={styles.description}>sunny</Text>
-            </View>
-          </View>
-        </ScrollView>
+    <View style={styles.container}>
+      <StatusBar style="light" />
+      <View style={styles.city}>
+        <Text style={styles.cityname}>{city}</Text>
       </View>
+      {/* 페이지 넘기는 좋은 기능 */}
+      <ScrollView
+        pagingEnabled
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={styles.weather}>
+        <View style={styles.day}>
+          <View>
+            <Text style={styles.temp}>27</Text>
+            <Text style={styles.description}>sunny</Text>
+          </View>
+        </View>
+        <View style={styles.day}>
+          <View>
+            <Text style={styles.temp}>27</Text>
+            <Text style={styles.description}>sunny</Text>
+          </View>
+        </View>
+        <View style={styles.day}>
+          <View>
+            <Text style={styles.temp}>27</Text>
+            <Text style={styles.description}>sunny</Text>
+          </View>
+        </View>
+        <View style={styles.day}>
+          <View>
+            <Text style={styles.temp}>27</Text>
+            <Text style={styles.description}>sunny</Text>
+          </View>
+        </View>
+      </ScrollView>
+    </View>
   );
 }
 
@@ -73,7 +74,6 @@ const styles = StyleSheet.create({
   },
   city: {
     flex: 1.2,
-    
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -81,8 +81,7 @@ const styles = StyleSheet.create({
     fontSize: 48,
     fontWeight: "500",
   },
-  weather: {
-  },
+  weather: {},
   day: {
     width: SCREEN_WIDTH,
     justifyContent: 'center',
