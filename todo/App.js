@@ -13,6 +13,8 @@ export default function App() {
   const [working, setWorking] = useState(true);
   const travel = () => setWorking(false);
   const work = () => setWorking(true);
+  const onChangeText = (payload) => setText(payload);
+  const [text, setText] = useState("");
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -25,7 +27,10 @@ export default function App() {
       </TouchableOpacity>
       </View>
         <TextInput
-        keyboardType='number-pad'
+        onChangeText={onChangeText}
+        //keyboardType='number-pad'
+        value={text}
+        // secureTextEntry // 비밀번호 입력
         style={styles.input} placeholder={working ? "Add a To Do": "Where do you want to go?"} placeholderTextColor={theme.grey}
         />
     </View>
